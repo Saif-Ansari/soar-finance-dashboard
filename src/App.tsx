@@ -6,6 +6,7 @@ import { store } from './store/store';
 import MainLayout from './components/layout/Layout';
 import './styles/tailwind.output.css';
 import Dashboard from './pages/dashboard/Dashboard';
+import Settings from './pages/dashboard/Settings';
 
 const App: React.FC = () => {
   return (
@@ -15,7 +16,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<h3>dsadas</h3> } />
             <Route path="/dashboard" element={<Dashboard /> } />
-            <Route path="/settings" element={<h2>Settings</h2>} />
+            <Route path="/settings" element={<Settings />} />
           </Routes>
         </MainLayout>
       </Router>
