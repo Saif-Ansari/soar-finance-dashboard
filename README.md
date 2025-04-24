@@ -38,3 +38,7 @@ npm start
 # or
 yarn start
 ```
+
+### 🔗 Live Demo
+
+[https://soar-finance-dashboard-hazel.vercel.app/dashboard](https://soar-finance-dashboard-hazel.vercel.app/dashboard)
