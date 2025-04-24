@@ -6,25 +6,25 @@ import {
   MenuOutlined,
 } from "@ant-design/icons";
 import { Avatar } from "antd";
+import { AppState } from "../../store/store";
+import { connect } from "react-redux";
 
 interface HeaderProps {
   onMenuClick?: () => void;
+  selectedSection: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
+const Header: React.FC<HeaderProps> = ({ onMenuClick, selectedSection }) => {
   return (
     <div className="fixed top-0 left-0 right-0 z-30 bg-white px-4 py-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-0 md:static border-b-2 border-gray-200 h-auto">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <button
-            onClick={onMenuClick}
-            className="md:hidden text-xl"
-          >
+          <button onClick={onMenuClick} className="md:hidden text-xl">
             <MenuOutlined />
           </button>
         </div>
         <h2 className="text-2xl font-semibold text-indigo-900 center">
-          Overview
+          {selectedSection === "Dashboard" ? "Overview" : selectedSection}
         </h2>
 
         <div className="md:hidden">
@@ -65,4 +65,8 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   );
 };
 
-export default Header;
+const mapStateToProps = (state: AppState) => ({
+  selectedSection: state.common.selectedSection,
+});
+
+export default connect(mapStateToProps)(Header);

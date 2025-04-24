@@ -1,8 +1,8 @@
 import React from "react";
 import { Tabs } from "antd";
-import EditProfileForm from "../../components/settings/EditProfileForm";
-import Preferences from "../../components/settings/Preferences";
-import Security from "../../components/settings/Security";
+import EditProfileForm from "../components/settings/EditProfileForm";
+import Preferences from "../components/settings/Preferences";
+import Security from "../components/settings/Security";
 
 const { TabPane } = Tabs;
 

@@ -11,7 +11,7 @@ const mockFetchCards = () =>
           balance: "$5,756",
           expiry: "12/22",
           number: "3778 **** **** 1234",
-          dark: true,
+          type: "platinum",
         },
         {
           id: 2,
@@ -19,7 +19,7 @@ const mockFetchCards = () =>
           balance: "$5,756",
           expiry: "12/22",
           number: "3778 **** **** 1234",
-          dark: false,
+          type: "regular",
         },
       ]);
     }, 1000)
@@ -49,22 +49,52 @@ const CardsSection: React.FC = () => {
         <Skeleton active paragraph={{ rows: 2 }} />
       ) : (
         <div className="grid gap-4 md:grid-cols-2">
-          {cards.map((card) => (
-            <div
-              key={card.id}
-              className={`rounded-2xl p-4 shadow  min-h-[250px]  ${
-                card.dark
-                  ? "bg-gradient-to-br from-gray-800 to-gray-900 text-white"
-                  : "bg-white text-black border"
-              }`}
-            >
-              <div className="text-sm">Balance</div>
-              <div className="text-2xl font-semibold">{card.balance}</div>
-              <div className="mt-4 text-sm">{card.name}</div>
-              <div className="text-sm">Valid Thru {card.expiry}</div>
-              <div className="mt-2 text-lg">{card.number}</div>
-            </div>
-          ))}
+          {cards.map((card) => {
+            const isDark = card.type === "platinum";
+            return (
+              <div
+                key={card.id}
+                className={`rounded-2xl p-6 relative shadow-lg flex flex-col justify-between overflow-hidden ${
+                  isDark
+                    ? "bg-gradient-to-br from-[#2E2E2E] to-[#1A1A1A] text-white"
+                    : "bg-white text-black border"
+                }`}
+                style={{ minHeight: "260px" }}
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <div className="text-sm">Balance</div>
+                    <div className="text-2xl font-semibold">{card.balance}</div>
+                  </div>
+                  <div className="text-2xl">💳</div>
+                </div>
+
+                <div className="mt-6 grid grid-cols-2 text-sm">
+                  <div>
+                    <div className="uppercase text-xs text-gray-400">
+                      Card Holder
+                    </div>
+                    <div className="font-semibold">{card.name}</div>
+                  </div>
+                  <div>
+                    <div className="uppercase text-xs text-gray-400">
+                      Valid Thru
+                    </div>
+                    <div className="font-semibold">{card.expiry}</div>
+                  </div>
+                </div>
+
+                <div
+                  className={`mt-6 px-4 py-3 rounded-xl flex justify-between items-center ${
+                    isDark ? "bg-black/20 backdrop-blur-sm" : "bg-gray-100"
+                  }`}
+                >
+                  <div className="text-lg font-mono">{card.number}</div>
+                  <div className="text-xl">💳💳</div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

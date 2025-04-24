@@ -1,16 +1,24 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import {thunk} from 'redux-thunk';
-import { ThunkMiddleware } from 'redux-thunk';
-import { userReducer } from './reducers/userReducer';
+import { createStore, applyMiddleware, combineReducers } from "redux";
+import { thunk, ThunkMiddleware } from "redux-thunk";
+import { commonReducer } from "./reducers/commonReducer";
+import CommonActionTypes from "./actionTypes/common"; // assuming it's a named export
 
+// Combine reducers
 const rootReducer = combineReducers({
-  user: userReducer,
+  common: commonReducer,
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+// Derive the state shape from the root reducer
+export type AppState = ReturnType<typeof rootReducer>;
+export type AppActionTypes = CommonActionTypes;
+export type AppAction = {
+  type: AppActionTypes;
+  payload?: any;
+};
 
-
+// Create the store with typed thunk middleware
 export const store = createStore(
   rootReducer,
-  applyMiddleware(thunk as unknown as ThunkMiddleware<RootState, any>)
+  undefined,
+  applyMiddleware(thunk as unknown as ThunkMiddleware<AppState, AppAction>)
 );

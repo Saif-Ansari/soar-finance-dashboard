@@ -11,8 +11,16 @@ import {
   SnippetsOutlined,
   HomeOutlined,
 } from "@ant-design/icons";
+import { connect } from "react-redux";
+import { AppState } from "../../store/store";
+import { setSelectedSection as setSelectedSectionAction } from "../../store/actions/common";
+export interface SideBarItem {
+  name: string;
+  icon: React.ReactNode;
+  path: string;
+}
 
-const menuItems = [
+const menuItems: SideBarItem[] = [
   { name: "Dashboard", icon: <HomeOutlined />, path: "/dashboard" },
   {
     name: "Transactions",
@@ -28,24 +36,42 @@ const menuItems = [
   { name: "Setting", icon: <SettingOutlined />, path: "/settings" },
 ];
 
-const Sidebar = ({ onClick }: { onClick?: () => void }) => {
+interface Props {
+  selectedSection: string;
+  onClick?: () => void;
+  setSelectedSection: (section: string) => void;
+}
+
+const Sidebar: React.FC<Props> = ({
+  onClick,
+  selectedSection,
+  setSelectedSection,
+}) => {
+  console.log("Sidebar rendered", selectedSection);
+
+  const handleClick = (section: string) => {
+    setSelectedSection(section);
+    if (onClick) {
+      onClick();
+    }
+  };
   return (
     <div className="w-64 h-full bg-white p-4">
       <div className="flex items-center space-x-2 mb-4 ml-2">
         <SnippetsOutlined className="text-2xl" />
         <span className="text-2xl font-bold text-indigo-900">Soar Task</span>
       </div>
-      <nav className="space-y-2">
+      <nav className="space-y-2 mt-6">
         {menuItems.map((item) => (
           <NavLink
             to={item.path}
             key={item.name}
-            onClick={onClick}
+            onClick={() => handleClick(item.name)}
             className={({ isActive }) =>
               `flex items-center space-x-3 p-2 rounded-lg transition-colors ${
                 isActive
-                  ? "bg-blue-100 text-blue-600"
-                  : "text-gray-600 hover:bg-gray-100"
+                  ? "text-black"
+                  : "text-gray-400 hover:text-black hover:bg-gray-100"
               }`
             }
           >
@@ -58,4 +84,12 @@ const Sidebar = ({ onClick }: { onClick?: () => void }) => {
   );
 };
 
-export default Sidebar;
+const mapStateToProps = (state: AppState) => ({
+  selectedSection: state.common.selectedSection,
+});
+
+const mapDispatchToProps = {
+  setSelectedSection: setSelectedSectionAction,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

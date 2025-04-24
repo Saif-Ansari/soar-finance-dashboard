@@ -1,10 +1,10 @@
 import React from "react";
-import CardsSection from "../../components/dashboard/CardsSection";
-import RecentTransactions from "../../components/dashboard/RecentTransactions";
-import WeeklyActivity from "../../components/dashboard/WeeklyActivity";
-import ExpenseStatistics from "../../components/dashboard/ExpenseStatistics";
-import QuickTransfer from "../../components/dashboard/QuickTransfer";
-import BalanceHistory from "../../components/dashboard/BalanceHistory";
+import CardsSection from "../components/dashboard/CardsSection";
+import RecentTransactions from "../components/dashboard/RecentTransactions";
+import WeeklyActivity from "../components/dashboard/WeeklyActivity";
+import ExpenseStatistics from "../components/dashboard/ExpenseStatistics";
+import QuickTransfer from "../components/dashboard/QuickTransfer";
+import BalanceHistory from "../components/dashboard/BalanceHistory";
 
 const Dashboard = () => {
   return (
