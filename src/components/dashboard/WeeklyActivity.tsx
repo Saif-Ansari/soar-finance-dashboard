@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Card, Skeleton } from "antd";
 import {
   BarChart,
@@ -9,42 +9,35 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { AppState } from "../../store/store";
+import { getWeeklyActivity as getWeeklyActivityAction } from "../../store/actions/dashbaord";
+import { connect } from "react-redux";
+import { WeeklyActivity as IWeeklyActivity } from "../../store/types/dashboard";
+import { APICallStatus } from "../../store/types/common";
 
-const mockFetchWeeklyActivity = () =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        { day: "Sat", deposit: 200, withdraw: 500 },
-        { day: "Sun", deposit: 150, withdraw: 350 },
-        { day: "Mon", deposit: 300, withdraw: 400 },
-        { day: "Tue", deposit: 350, withdraw: 500 },
-        { day: "Wed", deposit: 100, withdraw: 150 },
-        { day: "Thu", deposit: 220, withdraw: 380 },
-        { day: "Fri", deposit: 280, withdraw: 390 },
-      ]);
-    }, 1000);
-  });
-
-const WeeklyActivity: React.FC = () => {
-  const [data, setData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
+interface Props {
+  weeklyActivity: IWeeklyActivity[] | null;
+  weeklyActivityAPIStatus: APICallStatus;
+  getWeeklyActivity: () => void;
+}
+const WeeklyActivity: React.FC<Props> = ({
+  weeklyActivity,
+  weeklyActivityAPIStatus,
+  getWeeklyActivity,
+}) => {
   useEffect(() => {
-    mockFetchWeeklyActivity().then((res: any) => {
-      setData(res);
-      setLoading(false);
-    });
+    getWeeklyActivity();
   }, []);
 
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Weekly Activity</h2>
       <Card style={{ height: "100%" }}>
-        {loading ? (
+        {weeklyActivityAPIStatus === APICallStatus.LOADING ? (
           <Skeleton active />
         ) : (
           <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={data} >
+            <BarChart data={weeklyActivity ?? []}>
               <XAxis dataKey="day" />
               <YAxis />
               <Tooltip />
@@ -59,4 +52,12 @@ const WeeklyActivity: React.FC = () => {
   );
 };
 
-export default WeeklyActivity;
+const mapStateToProps = (state: AppState) => ({
+  weeklyActivity: state.dashboard.weeklyActivity,
+  weeklyActivityAPIStatus: state.dashboard.weeklyActivityAPIStatus,
+});
+
+const mapDispatchToProps = {
+  getWeeklyActivity: getWeeklyActivityAction,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(WeeklyActivity);

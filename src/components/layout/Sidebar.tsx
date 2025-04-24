@@ -12,7 +12,6 @@ import {
   HomeOutlined,
 } from "@ant-design/icons";
 import { connect } from "react-redux";
-import { AppState } from "../../store/store";
 import { setSelectedSection as setSelectedSectionAction } from "../../store/actions/common";
 export interface SideBarItem {
   name: string;
@@ -37,18 +36,11 @@ const menuItems: SideBarItem[] = [
 ];
 
 interface Props {
-  selectedSection: string;
   onClick?: () => void;
   setSelectedSection: (section: string) => void;
 }
 
-const Sidebar: React.FC<Props> = ({
-  onClick,
-  selectedSection,
-  setSelectedSection,
-}) => {
-  console.log("Sidebar rendered", selectedSection);
-
+const Sidebar: React.FC<Props> = ({ onClick, setSelectedSection }) => {
   const handleClick = (section: string) => {
     setSelectedSection(section);
     if (onClick) {
@@ -84,12 +76,8 @@ const Sidebar: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: AppState) => ({
-  selectedSection: state.common.selectedSection,
-});
-
 const mapDispatchToProps = {
   setSelectedSection: setSelectedSectionAction,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default connect(null, mapDispatchToProps)(Sidebar);

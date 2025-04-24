@@ -23,7 +23,7 @@ const data = [
 const BalanceHistory: React.FC = () => {
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold">Expense Statistics</h2>
+      <h2 className="text-lg font-semibold">Balance History</h2>
       <Card style={{ height: "100%" }}>
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={data}>

@@ -8,7 +8,7 @@ import BalanceHistory from "../components/dashboard/BalanceHistory";
 
 const Dashboard = () => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className=" mt-[130px] grid grid-cols-1 lg:grid-cols-3 gap-6 md:mt-0">
       <div className="lg:col-span-2">
         <CardsSection />
       </div>
